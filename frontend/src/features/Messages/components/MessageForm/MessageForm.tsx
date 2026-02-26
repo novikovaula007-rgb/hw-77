@@ -29,11 +29,12 @@ const MessageForm = () => {
 
     const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(form)
 
         let newMessage = {
             message: form.message,
             author: form.author,
-            image: null
+            image: form.image
         }
 
         if (form.author.trim().length === 0) newMessage.author = 'Anonymous';

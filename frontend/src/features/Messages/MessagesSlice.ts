@@ -33,7 +33,6 @@ export const sendMessage = createAsyncThunk<void, IMessageMutation>(
                 formData.append(key, value);
             }
         });
-
         await axiosAPI.post<IMessage>('/messages', formData);
     }
 );

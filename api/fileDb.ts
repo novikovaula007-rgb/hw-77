@@ -6,7 +6,7 @@ const fileName = './db.json';
 
 let data: IMessage[] = [];
 
-const fileDb = {
+export const fileDb = {
     async init() {
         try {
             const fileContents = await fs.readFile(fileName);
