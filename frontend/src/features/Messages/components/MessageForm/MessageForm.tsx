@@ -7,7 +7,7 @@ import type {IMessageMutation} from "../../../../types";
 import FileInput from "../../../../components/UI/FileInput/FileInput.tsx";
 import {useAppDispatch} from "../../../../../app/store/hooks.ts";
 import {toast} from "react-toastify";
-import {sendMessage} from "../../MessagesSlice.ts";
+import {fetchAllMessages, sendMessage} from "../../MessagesSlice.ts";
 
 const MessageForm = () => {
     const dispatch = useAppDispatch();
@@ -43,7 +43,8 @@ const MessageForm = () => {
             toast.error('You need to fill message field');
         } else {
             await dispatch(sendMessage(newMessage));
-            toast.success('Your message sent successfully')
+            await dispatch(fetchAllMessages());
+            toast.success('Your message sent successfully');
         }
     };
 
@@ -57,7 +58,7 @@ const MessageForm = () => {
     };
 
     return (
-        <Box component="form" sx={{maxWidth: 450, mx: 'auto', mt: 4}} onSubmit={onSubmitHandler}>
+        <Box component="form" sx={{maxWidth: 450, mx: 'auto'}} onSubmit={onSubmitHandler}>
             <Stack spacing={2}>
                 <TextField
                     id="author"

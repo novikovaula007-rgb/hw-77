@@ -13,10 +13,10 @@ const initialState: messagesState = {
     loading: false
 }
 
-export const fetchAllMessages = createAsyncThunk<IMessage[], string | undefined>(
+export const fetchAllMessages = createAsyncThunk<IMessage[]>(
     'messages/fetchAllMessages', async () => {
         const response = await axiosAPI.get<IMessage[]>('/messages');
-        return response.data;
+        return response.data.reverse();
     }
 );
 

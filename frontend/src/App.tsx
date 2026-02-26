@@ -1,9 +1,9 @@
-import MessageForm from "./features/Messages/components/MessageForm/MessageForm.tsx";
+import Messages from "./features/Messages/Messages.tsx";
 
 const App = () => {
   return (
     <>
-      <MessageForm/>
+      <Messages/>
     </>
   )
 }

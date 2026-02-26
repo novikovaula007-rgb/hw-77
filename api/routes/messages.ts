@@ -5,6 +5,11 @@ import {imagesUpload} from "../multer";
 
 export const messagesRouter = express.Router();
 
+messagesRouter.get('/', async (req, res) => {
+    let messages = await fileDb.getMessages();
+    return res.send(messages);
+});
+
 messagesRouter.post('/', imagesUpload.single('image'), async (req, res) => {
     if (!req.body.message) {
         return res.status(400).send({error: "Please enter a message fields"});
@@ -18,6 +23,5 @@ messagesRouter.post('/', imagesUpload.single('image'), async (req, res) => {
 
     const savedMessage = await fileDb.addMessage(newMessage);
     return res.send(savedMessage);
-
 
 })

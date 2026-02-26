@@ -7,6 +7,6 @@ export interface IMessageMutation {
 export interface IMessage {
     author: string,
     message: string,
-    image: File | null,
+    image: string | null,
     id: string
 }
