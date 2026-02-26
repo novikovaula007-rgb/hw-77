@@ -20,11 +20,21 @@ export const fetchAllMessages = createAsyncThunk<IMessage[], string | undefined>
     }
 );
 
-export const sendMessage = createAsyncThunk(
+export const sendMessage = createAsyncThunk<void, IMessageMutation>(
     'messages/sendMessage',
-    async (messageData: IMessageMutation) => {
-        const response = await axiosAPI.post<IMessage>('/messages', messageData);
-        return response.data;
+    async (messageData) => {
+        const formData = new FormData();
+
+        const keys = Object.keys(messageData) as (keyof IMessageMutation)[];
+        keys.forEach(key => {
+            const value = messageData[key];
+
+            if (value !== null) {
+                formData.append(key, value);
+            }
+        });
+
+        await axiosAPI.post<IMessage>('/messages', formData);
     }
 );
 
