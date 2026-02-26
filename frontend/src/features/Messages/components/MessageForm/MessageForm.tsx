@@ -3,17 +3,22 @@ import SendIcon from '@mui/icons-material/Send';
 import {Box, Button, Stack} from "@mui/material";
 import {useState} from "react";
 import * as React from "react";
-import type {IMessageMutation} from "../../../../../types";
+import type {IMessageMutation} from "../../../../types";
 import FileInput from "../../../../components/UI/FileInput/FileInput.tsx";
+import {useAppDispatch} from "../../../../../app/store/hooks.ts";
+import {toast} from "react-toastify";
+import {sendMessage} from "../../MessagesSlice.ts";
 
 const MessageForm = () => {
+    const dispatch = useAppDispatch();
+
     const [form, setForm] = useState<IMessageMutation>(
         {
             message: '',
             author: '',
             image: null
         }
-    )
+    );
 
     const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -22,9 +27,23 @@ const MessageForm = () => {
         })
     };
 
-    const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(form);
+
+        let newMessage = {
+            message: form.message,
+            author: form.author,
+            image: null
+        }
+
+        if (form.author.trim().length === 0) newMessage.author = 'Anonymous';
+
+        if (newMessage.message.trim().length === 0) {
+            toast.error('You need to fill message field');
+        } else {
+            await dispatch(sendMessage(newMessage));
+            toast.success('Your message sent successfully')
+        }
     };
 
     const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +54,7 @@ const MessageForm = () => {
             }));
         }
     };
+
     return (
         <Box component="form" sx={{maxWidth: 450, mx: 'auto', mt: 4}} onSubmit={onSubmitHandler}>
             <Stack spacing={2}>
